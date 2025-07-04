@@ -1,0 +1,222 @@
+/* Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Cal+Sans&display=swap');
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #f4f4f4;
+  color: #333;
+}
+
+/* Add CSS in Navbar */
+header {
+  background-color: #07253a;
+  color: #fff;
+  padding: 10px;
+  text-align: center;
+}
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #ff4500;
+  font-family: "Cal Sans", sans-serif;
+}
+
+.logo {
+  width: 80px;
+  height: auto;
+}
+
+.tagline {
+  font-size: 1.4rem;
+  margin-top: 5px;
+  color: #05b2f7;
+}
+
+nav {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+nav a {
+  color: #00abf0;
+  text-decoration: none;
+  padding: 8px 12px;
+  border: 2px solid #ff4500;
+  border-radius: 5px;
+  transition: background 0.2s ease;
+  background-color: #07253a;
+  font-family: "Cal Sans", sans-serif;
+}
+
+nav a:hover {
+  background-color: #00abf0;
+  color: #081b29;
+}
+
+header {
+  position: sticky;
+  top: 0;
+  z-index: 999;
+}
+main {
+  padding: 20px;
+}
+/* styling usernav */
+#userNav {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+#userNav span {
+  color: #ff4500;
+  font-weight: bold;
+}
+/* Adding CSS in Search box */
+.search-box {
+  background: #07253a;
+  color: #00abf0;
+  padding: 8px 12px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  text-align: center;
+}
+.search-box button{
+  border: 2px solid #ff4500;
+  border-radius: 5px;
+  color: #00abf0;
+  background-color: #07253a;
+  cursor: pointer;
+  width: auto;
+  height: 1.9rem;
+  font-weight: bold; 
+}
+.search-box button:hover{
+  background-color: #ff4500;
+  color: #081b29;
+}
+.search-box input{
+ border: 2px solid #ff4500;
+}
+.search-box input:hover{
+  background-color: #07253a;
+  color: #f4f4f4;
+}
+
+/* Vehicles Container Styling */
+.vehicle-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 20px;
+  border-radius: 8px;
+}
+
+.vehicle-card {
+  background: #f4f4f4;
+  color: #081b29;
+  border: 2px solid #ff4500;
+  border-radius: 8px;
+  padding: 10px;
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+  display: flex;
+  text-align: center;
+/* This Code is Taken From GPT */
+  flex-direction: column;
+  justify-content: space-between;
+
+}
+/*Vehicles Details styling*/
+.view-details-btn {
+  background-color: #07253a;
+  color: #00abf0;
+  padding: 8px 14px;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 5px;
+}
+.view-details-btn:hover {
+  background-color: #0056b3; 
+  color: #081b29;
+}
+/* Booking Page */
+.bookingBtn{
+  border: 2px solid #ff4500;
+  background: #00abf0;
+  color: #07253a;
+  border-radius: 4px;
+  font-weight: bold;
+  height: 2rem;
+  width: 7rem;
+  margin: 7px 7px;
+  cursor:pointer;
+}
+.bookingBtn:hover{
+  background-color: #ff4500;
+  color: #081b29;
+}
+/* This Code is Taken From GPT */
+.bookingSystm{
+  display: flex; 
+  flex-direction: column; 
+  align-items: center;
+  margin-top: 5px;
+  padding-top:5px;
+  text-align: center;
+  border:2px solid #ff4500;
+  background: #808080;
+}
+.bookingDetls{
+  color: #000;
+}
+label{
+  font-weight: bold;
+}
+label input{
+  border: 2px solid #ff4500;
+}
+label input:hover{
+  background: #808080;
+  color: #000;
+}
+.slideimg{
+  width: 350px;
+  display: flex;
+  justify-content: center;
+  align-items:center;
+}
+.slideBtn{
+  border: 2px solid #ff4500;
+  border-radius: 4px;
+  background-color: #808080;
+  cursor: pointer;
+  height: 1.7rem;
+  /* This Code is Taken From GPT*/
+  max-width: 90%; 
+  text-align: center;
+  margin: 0 5px;
+}
+.slideBtn:hover{
+  background-color: #ff4500;
+}
+/* footer */
+footer{
+  background-color: #07253a;
+  color: #00abf0;
+  display: flex ;
+  justify-content: center;
+  align-items: center;
+}
+/* *****Custom Scrollbar********** */
+::-webkit-scrollbar{
+    background: transparent;
+    width: 15px;
+}
+::-webkit-scrollbar-thumb{
+    background: linear-gradient(#00abf0);
+    border-radius: 2.5rem; 
+}

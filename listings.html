@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Available Vehicles - Self-Drive</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+    <header>
+    <div class="logo-container">
+    <img src="images/logo.png" alt="Self-Drive Logo" class="logo" />
+    <h1>Self-Drive</h1>
+  </div>
+  
+    <h1>Available Vehicles</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="dashboard.html">List Your Vehicle</a>
+      <span id="userNav"></span>
+    </nav>
+  </header>
+
+  <main>
+    <section class="search-box">
+      <input type="text" id="searchLocation" placeholder="Search by location" />
+      <select id="vehicleType">
+        <option value="">All Types</option>
+        <option value="Car">Car</option>
+        <option value="Bike">Bike</option>
+        <option value="Scooter">Scooter</option>
+      </select>
+      <input type="number" id="minPrice" placeholder="Min Price" />
+      <input type="number" id="maxPrice" placeholder="Max Price" />
+      <select id="sortOrder">
+        <option value="">Sort by</option>
+        <option value="low">Price: Low to High</option>
+        <option value="high">Price: High to Low</option>
+      </select>
+      <button onclick="applyFilters()">Search</button>
+    </section>
+
+    <section>
+      <div id="listContainer" class="vehicle-grid"></div>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2025 Self-Drive</p>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/data.js"></script>
+  <script>
+    // Load vehicles
+  function loadVehicles() {
+      const userVehicles = JSON.parse(localStorage.getItem("selfdrive_vehicles")) || [];
+      return [...(window.demoVehicles || []), ...userVehicles];
+}
+    // Render list of vehicles
+  function renderList(vehicles) {
+      const listContainer = document.getElementById("listContainer");
+      listContainer.innerHTML = "";
+
+      if (vehicles.length === 0) {
+        listContainer.innerHTML = "<p>No vehicles found.</p>";
+        return;
+      }
+
+      vehicles.forEach(v => {
+        listContainer.innerHTML += `
+          <div class="vehicle-card">
+            <img src="${v.images?.[0] || v.image || 'images/placeholder.jpg'}" alt="${v.brand}" width="100%" />
+            <h3>${v.brand}</h3>
+            <p>${v.type} - ₹${v.price}/day</p>
+            <p>${v.location}</p>
+            <a href="vehicle.html?id=${v.id}" class="view-details-btn">View Details</a>
+          </div>
+        `;
+      });
+    }
+
+    // Apply filters
+    function applyFilters() {
+      const location = document.getElementById("searchLocation").value.toLowerCase();
+      const type = document.getElementById("vehicleType").value;
+      const minPrice = parseInt(document.getElementById("minPrice").value) || 0;
+      const maxPrice = parseInt(document.getElementById("maxPrice").value) || Infinity;
+      const sortOrder = document.getElementById("sortOrder").value;
+
+      let vehicles = loadVehicles().filter(v =>
+        v.location.toLowerCase().includes(location) &&
+        (!type || v.type.toLowerCase() === type.toLowerCase()) &&
+        v.price >= minPrice && v.price <= maxPrice
+      );
+
+      if (sortOrder === "low") {
+        vehicles.sort((a, b) => a.price - b.price);
+      } else if (sortOrder === "high") {
+        vehicles.sort((a, b) => b.price - a.price);
+      }
+
+      renderList(vehicles);
+    }
+
+    // Initial load
+    window.onload = () => {
+      renderList(loadVehicles());
+
+      const user = JSON.parse(sessionStorage.getItem("loggedInUser"));
+      const userNav = document.getElementById("userNav");
+
+      if (user) {
+        userNav.innerHTML = `
+          <span>Welcome, ${user.name}</span>
+          <a href="#" onclick="logout()">Logout</a>
+        `;
+      } else {
+        userNav.innerHTML = `
+          <a href="login.html">Login</a>
+          <a href="register.html">Register</a>
+        `;
+      }
+    };
+
+    function logout() {
+      sessionStorage.removeItem("loggedInUser");
+      alert("You have been logged out.");
+      window.location.href = "login.html";
+    }
+  </script>
+
+</body>
+</html>

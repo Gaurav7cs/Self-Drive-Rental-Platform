@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Register - Self-Drive</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <header>
+    <h1>Create an Account</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <span id="userNav"></span>
+    </nav>
+  </header>
+
+  <main>
+    <section class="search-box">
+      <form id="registerForm">
+        <input type="text" id="regName" placeholder="Full Name" required />
+        <input type="email" id="regEmail" placeholder="Email" required />
+        <input type="password" id="regPassword" placeholder="Password" required />
+        <select id="regRole" required>
+          <option value="">Select Role</option>
+          <option value="renter">Renter</option>
+          <option value="lister">Vehicle Owner</option>
+        </select>
+        <button type="submit">Register</button>
+        <p id="registerMessage" style="color: green;"></p>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2025 Self-Drive</p>
+  </footer>
+
+  <script>
+    const userNav = document.getElementById("userNav");
+    const user = JSON.parse(sessionStorage.getItem("loggedInUser"));
+
+    if (user) {
+      userNav.innerHTML = `
+        <span>Welcome, ${user.name}</span>
+        <a href="#" onclick="logout()">Logout</a>
+      `;
+    } else {
+      userNav.innerHTML = `<a href="login.html">Login</a>`;
+    }
+
+    function logout() {
+      sessionStorage.removeItem("loggedInUser");
+      alert("You have been logged out.");
+      window.location.href = "login.html";
+    }
+
+    document.getElementById("registerForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const name = document.getElementById("regName").value;
+      const email = document.getElementById("regEmail").value;
+      const password = document.getElementById("regPassword").value;
+      const role = document.getElementById("regRole").value;
+
+      let users = JSON.parse(localStorage.getItem("selfdrive_users")) || [];
+
+      if (users.find(u => u.email === email)) {
+        showMessage("Email already registered.", "red");
+        return;
+      }
+
+      const newUser = { name, email, password, role };
+      users.push(newUser);
+      localStorage.setItem("selfdrive_users", JSON.stringify(users));
+
+      showMessage("Registration successful! You can now log in.", "green");
+      e.target.reset();
+    });
+
+    function showMessage(message, color) {
+      const msg = document.getElementById("registerMessage");
+      msg.style.color = color;
+      msg.textContent = message;
+    }
+  </script>
+</body>
+</html>

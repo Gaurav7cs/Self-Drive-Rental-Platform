@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Vehicle Details - Self-Drive</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <header>
+  <div class="logo-container">
+    <img src="images/logo.png" alt="Self-Drive Logo" class="logo" />
+    <h1>Self-Drive</h1>
+  </div>
+    <h1>Vehicle Details</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="listings.html">All Listings</a>
+      <a href="dashboard.html">Dashboard</a>
+      <span id="userNav"></span>
+    </nav>
+  </header>
+
+  <main>
+    <section id="vehicleDetail" class="vehicle-detail"></section>
+  </main>
+
+  <footer>
+    <p>© 2025 Self-Drive</p>
+  </footer>
+  <script src="js/data.js"></script>
+  <script>
+    const user = JSON.parse(sessionStorage.getItem("loggedInUser"));
+    const userNav = document.getElementById("userNav");
+
+    if (!user) {
+      window.location.href = "login.html";
+    } else {
+      userNav.innerHTML = `
+        <span>Welcome, ${user.name}</span>
+        <a href="#" onclick="logout()">Logout</a>
+      `;
+    }
+
+    function logout() {
+      sessionStorage.removeItem("loggedInUser");
+      alert("You have been logged out.");
+      window.location.href = "login.html";
+    }
+
+    const userVehicles = JSON.parse(localStorage.getItem("selfdrive_vehicles")) || [];
+    const vehicles = [...(window.demoVehicles || []), ...userVehicles];
+    const urlParams = new URLSearchParams(window.location.search);
+    const vehicleId = parseInt(urlParams.get("id"));
+    const vehicle = vehicles.find(v => v.id === vehicleId);
+
+    function renderVehicle(v) {
+      const detail = document.getElementById("vehicleDetail");
+      console.log("Vehicle Images:", v.images);
+
+      if (!v) {
+        detail.innerHTML = "<p>Vehicle not found.</p>";
+        return;
+      }
+
+      const imagesHtml = (v.images || []).map((img, i) => `
+        <img src="${img}" class="slide" style="display:${i === 0 ? 'block' : 'none'}; width:100%;" />
+      `).join("");
+
+      detail.innerHTML = `
+        <div class="bookingSystm">
+        <div id="sliderContainer"class="slideimg">${imagesHtml}</div>
+        <div style="margin: 10px 0;">
+          <button onclick="prevSlide()"class="slideBtn">⬅️</button>
+          <button onclick="nextSlide()"class="slideBtn">➡️</button>
+        </div>
+
+        <h2>${v.brand}</h2>
+      <div class="bookingDetls"
+        <p><strong>Type:</strong> ${v.type}</p>
+        <p><strong>Location:</strong> ${v.location}</p>
+        <p><strong>Price:</strong> ₹${v.price}/day</p>
+        <p><strong>Available:</strong> ${v.availableFrom} to ${v.availableTo}</p>
+        <p><strong>Listed By:</strong> ${v.listerName || 'Unknown'} (${v.listerEmail || 'N/A'})</p>
+
+        <label>Book From: <input type="date" id="bookStart" required></label>
+        <label>To: <input type="date" id="bookEnd" required></label>
+        <br/>
+        <button onclick="bookVehicle(${v.id})"class="bookingBtn">Book Now</button>
+        </div>
+      </div>
+      `;
+    }
+
+    // Image slider
+    let currentSlide = 0;
+    function showSlide(index) {
+      const slides = document.querySelectorAll(".slide");
+      if (slides.length === 0) return;
+      slides.forEach((slide, i) => {
+        slide.style.display = i === index ? "block" : "none";
+      });
+    }
+
+    function nextSlide() {
+      const slides = document.querySelectorAll(".slide");
+      currentSlide = (currentSlide + 1) % slides.length;
+      showSlide(currentSlide);
+    }
+
+    function prevSlide() {
+      const slides = document.querySelectorAll(".slide");
+      currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+      showSlide(currentSlide);
+    }
+
+    function bookVehicle(id) {
+      const v = vehicles.find(v => v.id === id);
+      const start = document.getElementById("bookStart").value;
+      const end = document.getElementById("bookEnd").value;
+
+      if (!start || !end) {
+        return alert("Please select both start and end dates.");
+      }
+
+      if (start < v.availableFrom || end > v.availableTo || start > end) {
+        return alert("Selected dates are outside availability range or invalid.");
+      }
+
+      const bookings = JSON.parse(localStorage.getItem("selfdrive_bookings")) || [];
+
+      bookings.push({
+        vehicleId: v.id,
+        userEmail: user.email,
+        startDate: start,
+        endDate: end,
+        brand: v.brand,
+        location: v.location,
+        image: v.images?.[0] || "images/placeholder.jpg"
+      });
+
+      localStorage.setItem("selfdrive_bookings", JSON.stringify(bookings));
+      alert(`Booking confirmed from ${start} to ${end} for ${v.brand}`);
+    }
+
+    // Initial render
+    renderVehicle(vehicle);
+  </script>
+</body>
+</html>

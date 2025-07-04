@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Self-Drive | Home</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <header>
+  <div class="logo-container">
+    <img src="images/logo.png" alt="Self-Drive Logo" class="logo" />
+    <h1>Self-Drive</h1>
+  </div>
+    <h2 class="tagline">A Peer-to-Peer Self-Drive Rental Platform for Bikes, Scooters, and Cars</h2>
+    <nav>
+      <a href="listings.html">Rent a Vehicle</a>
+      <a href="dashboard.html">List Your Vehicle</a>
+      <span id="userNav"></span>
+    </nav>
+  </header>
+
+  <main>
+    <section class="search-box">
+      <input type="text" id="searchLocation" placeholder="Search by location" />
+      <select id="vehicleType">
+        <option value="">All Types</option>
+        <option value="Car">Car</option>
+        <option value="Bike">Bike</option>
+        <option value="Scooter">Scooter</option>
+      </select>
+      <input type="number" id="minPrice" placeholder="Min Price" />
+      <input type="number" id="maxPrice" placeholder="Max Price" />
+      <select id="sortOrder">
+        <option value="">Sort by</option>
+        <option value="low">Price: Low to High</option>
+        <option value="high">Price: High to Low</option>
+      </select>
+      <button onclick="applyFilters()">Search</button>
+    </section>
+
+    <section class="featured-vehicles">
+      <h3>Featured Vehicles</h3>
+      <div id="featuredContainer" class="vehicle-grid"></div>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2025 Self-Drive. All rights reserved.</p>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    // Navigation logic
+    const user = JSON.parse(sessionStorage.getItem("loggedInUser"));
+    const userNav = document.getElementById("userNav");
+
+    if (user) {
+      userNav.innerHTML = `
+        <span>Welcome, ${user.name}</span>
+        <a href="#" onclick="logout()">Logout</a>
+      `;
+    } else {
+      userNav.innerHTML = `
+        <a href="login.html">Login</a>
+        <a href="register.html">Register</a>
+      `;
+    }
+
+    function logout() {
+      sessionStorage.removeItem("loggedInUser");
+      alert("You have been logged out.");
+      window.location.href = "login.html";
+    }
+  </script>
+
+</body>
+</html>

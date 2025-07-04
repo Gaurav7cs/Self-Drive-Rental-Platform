@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login - Self-Drive</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <header>
+    <h1>Login to Self-Drive</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <span id="userNav"></span>
+    </nav>
+  </header>
+
+  <main>
+    <section class="search-box">
+      <form id="loginForm">
+        <input type="email" id="loginEmail" placeholder="Email" required />
+        <input type="password" id="loginPassword" placeholder="Password" required />
+        <button type="submit">Login</button>
+        <p id="loginMessage" style="color: red;"></p>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2025 Self-Drive</p>
+  </footer>
+
+  <script>
+    const userNav = document.getElementById("userNav");
+    const loggedUser = JSON.parse(sessionStorage.getItem("loggedInUser"));
+
+    if (loggedUser) {
+      userNav.innerHTML = `
+        <span>Welcome, ${loggedUser.name}</span>
+        <a href="#" onclick="logout()">Logout</a>
+      `;
+    } else {
+      userNav.innerHTML = `<a href="register.html">Register</a>`;
+    }
+
+    function logout() {
+      sessionStorage.removeItem("loggedInUser");
+      alert("You have been logged out.");
+      window.location.href = "login.html";
+    }
+
+    document.getElementById("loginForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const email = document.getElementById("loginEmail").value;
+      const password = document.getElementById("loginPassword").value;
+
+      const users = JSON.parse(localStorage.getItem("selfdrive_users")) || [];
+      const foundUser = users.find(u => u.email === email && u.password === password);
+
+      if (!foundUser) {
+        showLoginMessage("Invalid credentials!", "red");
+        return;
+      }
+
+      sessionStorage.setItem("loggedInUser", JSON.stringify(foundUser));
+      window.location.href = foundUser.role === "lister" ? "dashboard.html" : "listings.html";
+    });
+
+    function showLoginMessage(message, color) {
+      const msg = document.getElementById("loginMessage");
+      msg.style.color = color;
+      msg.textContent = message;
+    }
+  </script>
+</body>
+</html>

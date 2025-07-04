@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>List Your Vehicles - Self-Drive</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <header>
+  <div class="logo-container">
+    <img src="images/logo.png" alt="Self-Drive Logo" class="logo" />
+    <h1>Self-Drive</h1>
+  </div>
+    <h1>List Your Vehicles</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="listings.html">Rent a Vehicle</a>
+      <span id="userNav"></span>
+    </nav>
+  </header>
+
+  <main>
+    <section class="search-box">
+      <h3>Add Your Vehicle</h3>
+      <form id="vehicleForm">
+        <input type="text" id="brand" placeholder="Brand" required />
+        <select id="type" required>
+          <option value="">Select Type</option>
+          <option value="Car">Car</option>
+          <option value="Bike">Bike</option>
+          <option value="Scooter">Scooter</option>
+        </select>
+        <input type="text" id="location" placeholder="Location" required />
+        <input type="number" id="price" placeholder="Price per day (₹)" required />
+        <input type="date" id="availableFrom" required />
+        <input type="date" id="availableTo" required />
+        <input type="file" id="imageFile" accept="image/*" />
+        <button type="submit">Add Vehicle</button>
+        <p id="formMsg" style="color: green;"></p>
+      </form>
+    </section>
+
+    <section>
+      <h2> Your Listed Vehicles</h2>
+      <div id="listContainer" class="vehicle-grid"></div>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2025 Self-Drive</p>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/dashboard.js"></script>  
+</body>
+</html>
