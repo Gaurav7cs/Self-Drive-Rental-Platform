@@ -1,6 +1,5 @@
 # SelfDrive - Vehicle Rental Platform 🚗
-🔴 Live Demo: https://gaurav7cs.github.io/Self-Drive-Rental-Platform/
-
+🔴 Live Demo: https://gaurav7cs.github.io/Rent-A-Vehicle-Website/
 A simple frontend-only project for a self-drive vehicle rental platform made using HTML, CSS, and JavaScript.
 
 > 🔧 Work in Progress — Backend and advanced features ( payment,Placeholder for image gallery etc.) coming soon!
